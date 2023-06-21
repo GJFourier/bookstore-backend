@@ -16,14 +16,9 @@ public class UserAuth {
     private String username;
     @Column(name = "password")
     private String password;
-    @Column(name = "role")
-    private Integer role;
-    //0:普通用户 1:管理员
-    @Column(name = "status")
-    private Integer status;
-    //0:注销 1:正常 2:封禁
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id", referencedColumnName = "id",nullable = false)
     private User user;
 
 }

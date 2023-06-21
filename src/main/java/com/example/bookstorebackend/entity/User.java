@@ -23,6 +23,12 @@ public class User {
     private String email;
     @Column(name = "avatar")
     private String avatar;
+    @Column(name = "role")
+    private Integer role;
+    //0:普通用户 1:管理员
+    @Column(name = "status",nullable = false)
+    private Integer status;
+    //0:注销 1:正常 2:封禁
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private UserAuth userAuth;

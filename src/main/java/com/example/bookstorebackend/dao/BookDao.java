@@ -1,6 +1,7 @@
 package com.example.bookstorebackend.dao;
 
 import com.example.bookstorebackend.entity.Book;
+import com.example.bookstorebackend.util.request.AddBookForm;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,4 +14,7 @@ public interface BookDao {
     Book getBookByAuthor(String author);
     Book getBookByTitle(String title);
     List<Book> findAll();
+    void addBook(AddBookForm addBookForm);
+    void reduceCountById(Long id, Long count);
+    void delBookById(Long id);
 }

@@ -3,10 +3,8 @@ package com.example.bookstorebackend.service.Impl;
 import com.example.bookstorebackend.dao.*;
 import com.example.bookstorebackend.entity.*;
 import com.example.bookstorebackend.service.OrderService;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,12 +17,13 @@ public class OrderServiceImpl implements OrderService {
     private final UserDao userDao;
     private final OrderItemDao orderItemDao;
     private final CartItemDao cartItemDao;
-
-    public OrderServiceImpl(OrderDao orderDao, UserDao userDao, BookDao bookDao, OrderItemDao orderItemDao, CartItemDao cartItemDao) {
+    private final BookDao bookDao;
+    public OrderServiceImpl(OrderDao orderDao, UserDao userDao, OrderItemDao orderItemDao, CartItemDao cartItemDao, BookDao bookDao1, BookDao bookDao) {
         this.orderDao = orderDao;
         this.userDao = userDao;
         this.orderItemDao = orderItemDao;
         this.cartItemDao = cartItemDao;
+        this.bookDao = bookDao;
     }
 
     @Override
@@ -36,6 +35,8 @@ public class OrderServiceImpl implements OrderService {
         Date date = new Date();
         for (CartItem cartItem:cart){
             totalPrice += cartItem.getCount() * cartItem.getBook().getPrice();
+            Book book = cartItem.getBook();
+            bookDao.reduceCountById(book.getId(), cartItem.getCount());
         }
         Order order = new Order(totalPrice, date, user);
         List<OrderItem> orderItems = new ArrayList<>();

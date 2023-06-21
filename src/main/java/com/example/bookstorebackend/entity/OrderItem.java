@@ -16,7 +16,7 @@ public class OrderItem {
     private Long id;
     @Column(name = "count")
     private Long count;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
     @ManyToOne(cascade = CascadeType.ALL)
