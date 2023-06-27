@@ -1,13 +1,14 @@
 package com.example.bookstorebackend.controller;
 import com.example.bookstorebackend.entity.Book;
 import com.example.bookstorebackend.service.BookService;
-import com.example.bookstorebackend.util.request.AddBookForm;
-import com.example.bookstorebackend.util.request.ChangeCartItemForm;
+import com.example.bookstorebackend.util.request.*;
 import jakarta.transaction.Transactional;
 import jakarta.websocket.server.PathParam;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -37,5 +38,30 @@ public class BookController {
     @RequestMapping(value = "api/book/del", method = RequestMethod.DELETE)
     void changeCountByUserIdAndBookId(@PathParam("id") Long id){
         bookService.delBook(id);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "api/book/get/statistics/byBook",method = RequestMethod.GET)
+    List<BookAmountPrice> getBookStatisticsByBook(
+            @PathParam("beginTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date beginTime,
+            @PathParam("endTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date endTime){
+        return bookService.getBookStatistics(beginTime,endTime);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "api/book/get/statistics/byUser",method = RequestMethod.GET)
+    List<GerUserStatisticsForm> getBookStatisticsByUser(
+            @PathParam("beginTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date beginTime,
+            @PathParam("endTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date endTime){
+        return bookService.getUserStatistics(beginTime,endTime);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "api/book/get/statistics/{userId}",method = RequestMethod.GET)
+    GetUserBookForm getUserBookForms(
+            @PathParam("beginTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date beginTime,
+            @PathParam("endTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date endTime,
+            @PathVariable Long userId){
+        return bookService.getUserBookForms(beginTime,endTime,userId);
     }
 }

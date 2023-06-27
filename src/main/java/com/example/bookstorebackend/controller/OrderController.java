@@ -25,4 +25,7 @@ public class OrderController {
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "delete/{orderId}", method = RequestMethod.DELETE)
     void deleteOrder(@PathVariable @NotNull Long orderId){orderService.deleteOrderById(orderId);}
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "get", method = RequestMethod.GET)
+    List<Order> getAllOrder(){return orderService.getAllOrder();}
 }

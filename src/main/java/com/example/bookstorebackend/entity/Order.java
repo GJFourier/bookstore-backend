@@ -21,12 +21,10 @@ public class Order {
     private Date time;
     @Column(name = "price")
     private Double price;
-    @JsonIgnoreProperties(value = {"order"})
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItemSet;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    @JsonIgnore
     private User user;
     public Order(){}
     public Order(Double price, Date time, User user){
